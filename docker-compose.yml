@@ -1,0 +1,75 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"' || curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"yellow\"'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  servelinc1:
+    build: .
+    environment:
+      - GRPC_ADDR=:8080
+      - REDIS_URL=redis://redis:6379
+      - RATE_LIMIT=100
+      - WINDOW_DURATION=1m
+      - OPENSEARCH_URL=http://opensearch:9200
+      - INSTANCE_ID=servelinc1
+    ports:
+      - "8081:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
+
+  servelinc2:
+    build: .
+    environment:
+      - GRPC_ADDR=:8080
+      - REDIS_URL=redis://redis:6379
+      - RATE_LIMIT=100
+      - WINDOW_DURATION=1m
+      - OPENSEARCH_URL=http://opensearch:9200
+      - INSTANCE_ID=servelinc2
+    ports:
+      - "8082:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
+
+  servelinc3:
+    build: .
+    environment:
+      - GRPC_ADDR=:8080
+      - REDIS_URL=redis://redis:6379
+      - RATE_LIMIT=100
+      - WINDOW_DURATION=1m
+      - OPENSEARCH_URL=http://opensearch:9200
+      - INSTANCE_ID=servelinc3
+    ports:
+      - "8083:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy

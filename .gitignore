@@ -1,0 +1,30 @@
+# Binaries and build output
+/bin/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go test cache
+.testcache/
+
+# Logs
+*.log
+
+# Environment variables – never commit secrets
+.env
+.env.*
+*.env
+
+# Editor and OS metadata
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# Go vendor directory
+vendor/
