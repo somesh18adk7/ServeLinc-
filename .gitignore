@@ -1,30 +1,55 @@
 # Binaries and build output
 /bin/
+/build/
 /dist/
+/out/
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 *.test
+*.prof
 *.out
 
-# Go test cache
+# Go coverage, profiling, and test cache
+coverage.out
+coverage.html
+.coverage/
 .testcache/
 
-# Logs
+# Logs and runtime output
 *.log
+*.pid
+*.seed
 
-# Environment variables – never commit secrets
+# Environment files and local secrets
 .env
 .env.*
 *.env
+!.env.example
 
-# Editor and OS metadata
-.DS_Store
+# IDE and editor files
 .idea/
 .vscode/
-Thumbs.db
+*.swp
+*.swo
+*~
 
-# Go vendor directory
+# OS-specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Local development and container artifacts
 vendor/
+.tmp/
+.temp/
+.cache/
+.nyc_output/
+
+# Generated protobuf and tool output (keep committed generated sources explicitly tracked)
+.buf/
