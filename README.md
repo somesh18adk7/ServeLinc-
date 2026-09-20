@@ -86,7 +86,7 @@ OpenSearch is not involved in the quota decision itself. If OpenSearch is unavai
 
 Each telemetry event records:
 
-- `key` — the tenant or API key
+- `key` — the tenant or API key; retained in `_source` for troubleshooting but not indexed to avoid high-cardinality term lookups and reduce exposure
 - `decision` — `ALLOW` or `DENY`
 - `remaining` — quota remaining after this request
 - `latency_ms` — time spent in the ServeLinc handler
@@ -222,6 +222,7 @@ Each returned document is an actual quota-decision event indexed asynchronously.
 - The rate limiter is fail-closed: if Redis is unavailable, requests are denied rather than allowed through.
 - Secrets, credentials, and API keys must not be committed to the repository. See `.gitignore`.
 - The local OpenSearch instance runs with security disabled (`DISABLE_SECURITY_PLUGIN=true`). This is appropriate only for local development.
+- Telemetry fields are intentionally minimal, and `key` is kept in `_source` but not indexed to avoid high-cardinality term lookups and reduce exposure.
 - In production, OpenSearch, Redis, and admin endpoints should use authenticated, TLS-enabled connections with least-privilege credentials and network isolation.
 
 ## Demo
