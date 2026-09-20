@@ -1,4 +1,4 @@
-﻿# ServeLinc
+# ServeLinc
 
 Distributed global quota enforcement for horizontally scaled, multi-tenant APIs.
 
@@ -222,6 +222,7 @@ Each returned document is an actual quota-decision event indexed asynchronously.
 - The rate limiter is fail-closed: if Redis is unavailable, requests are denied rather than allowed through.
 - Secrets, credentials, and API keys must not be committed to the repository. See `.gitignore`.
 - The local OpenSearch instance runs with security disabled (`DISABLE_SECURITY_PLUGIN=true`). This is appropriate only for local development.
+- In production, OpenSearch, Redis, and admin endpoints should use authenticated, TLS-enabled connections with least-privilege credentials and network isolation.
 
 ## Demo
 
