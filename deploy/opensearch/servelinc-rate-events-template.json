@@ -1,0 +1,37 @@
+{
+  "index_patterns": ["servelinc-rate-events-*"],
+  "priority": 100,
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0,
+      "index.mapping.total_fields.limit": 32
+    },
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "@timestamp": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "key": {
+          "type": "keyword",
+          "index": false,
+          "doc_values": false
+        },
+        "decision": {
+          "type": "keyword"
+        },
+        "remaining": {
+          "type": "integer"
+        },
+        "latency_ms": {
+          "type": "long"
+        },
+        "instance_id": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
