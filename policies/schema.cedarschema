@@ -1,0 +1,22 @@
+namespace servelinc {
+    entity User {
+        role: String,
+        tenant: Tenant,
+    };
+
+    entity Tenant;
+
+    entity Quota {
+        tenant: Tenant,
+    };
+
+    action GetQuota appliesTo {
+        principal: User,
+        resource: Quota,
+    };
+
+    action SetQuota appliesTo {
+        principal: User,
+        resource: Quota,
+    };
+};
